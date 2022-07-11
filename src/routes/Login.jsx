@@ -18,6 +18,7 @@ const Login = () => {
     try {
       await loginUser(email, password);
       console.log('usuario Logeado')
+      navegate("/")
     } catch (error) {
       console.log(error.code);
     }
@@ -40,7 +41,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Registrar</button>
+        <button type="submit">Login</button>
       </form>
     </>
   );
