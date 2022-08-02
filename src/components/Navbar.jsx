@@ -9,7 +9,7 @@ const Navbar = () => {
     try {
       await signOutUser(user);
     } catch (error) {
-      console.log(error);
+      console.log(error.code);
     }
   };
  
