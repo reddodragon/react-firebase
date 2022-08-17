@@ -20,10 +20,10 @@ export const formValidate = (getValues) => {
                 return true
             },
           },
-          validateEquals(getValues) {
+          validateEquals(value) {
             return {
                 equals: v => 
-                    v === getValues('password') || //creo mi propia validacion y comparo el elemento actual "v" con el elemento anterior que lo selecciono con getValues()
+                    v === value || //creo mi propia validacion y comparo el elemento actual "v" con el elemento anterior que lo selecciono con getValues()
                     "Las contraseñas deben ser iguales", //Si la condicion anterior no se cumple ejecuto este mensaje
             }
           }
