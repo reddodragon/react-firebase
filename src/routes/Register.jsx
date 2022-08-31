@@ -24,13 +24,7 @@ const Register = () => {
     formState: { errors },
     getValues,
     setError,
-  } = useForm({
-    defaultValues: {
-      email: "fede1@fede1.com",
-      password: "123123",
-      repassword: "123123",
-    },
-  });
+  } = useForm();
 
   const onSubmit = async ({ email, password }) => {
     try {

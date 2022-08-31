@@ -9,7 +9,7 @@ import FormInput from "../components/FormInput";
 import { formValidate } from "../utils/formValidate";
 import Title from "../components/Title";
 import Button from "../components/Button";
-import ButtonLoading from "../components/ButtonLoading";
+
 
 const Login = () => {
   const { loginUser } = useContext(UserContext);
@@ -22,12 +22,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({
-    defaultValues: {
-      email: "fede1@fede1.com",
-      password: "123123",
-    },
-  });
+  } = useForm();
 
   const onSubmit = async ({ email, password }) => {
     try {

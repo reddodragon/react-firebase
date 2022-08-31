@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const classButtonColor = (color) => {
     return (
-      `text-white bg-${color}-700 hover:bg-${color}-800 focus:ring-4 focus:outline-none focus:ring-${color}-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-${color}-600 dark:hover:bg-${color}-700 dark:focus:ring-${color}-800`
+      `text-white bg-${color}-700 hover:bg-${color}-800 focus:ring-4 focus:outline-none focus:ring-${color}-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 dark:bg-${color}-600 dark:hover:bg-${color}-700 dark:focus:ring-${color}-800`
     )
   }
 
