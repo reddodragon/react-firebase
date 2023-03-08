@@ -3,58 +3,59 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
 import { erroresFirebase } from "../utils/erroresFirebase";
+import { formValidate } from "../utils/formValidate";
 
 import FormError from "../components/FormError";
 import FormInput from "../components/FormInput";
-import { formValidate } from "../utils/formValidate";
 import Title from "../components/Title";
 import Button from "../components/Button";
+import ButtonLoading from "../components/ButtonLoading";
 
-
-const Login = () => {
-  const { loginUser } = useContext(UserContext);
+const Register = () => {
+  const { registerUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navegate = useNavigate();
-  const { required, patternEmail, minLength, validateTrim } = formValidate();
+  const { required, patternEmail, minLength, validateTrim, validateEquals } =
+    formValidate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
     setError,
   } = useForm();
 
   const onSubmit = async ({ email, password }) => {
     try {
-      setLoading(true);
-      await loginUser(email, password);
+      setLoading(true)
+      await registerUser(email, password);
       navegate("/");
     } catch (error) {
-      const { code, message } = erroresFirebase(error.code);
+      console.log(error.code);
+      const {code, message} = erroresFirebase(error.code)
       setError(code, { message });
-    } finally {
-      //Se ejecuta en ambos casos falle o no
-      setLoading(false);
+    }finally{
+      setLoading(false)
     }
   };
 
   return (
     <>
-      <Title text="Login" />
+      <Title text="Register"/>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
-          label="Ingresa tu email"
           type="email"
-          error={errors.email}
           placeholder="Ingrese email"
           {...register("email", {
             required,
             pattern: patternEmail,
           })}
+          label="Ingresa tu email"
+          error={errors.email}
         >
           <FormError error={errors.email} />
         </FormInput>
-
         <FormInput
           type="password"
           placeholder="Ingrese password"
@@ -67,12 +68,21 @@ const Login = () => {
         >
           <FormError error={errors.password} />
         </FormInput>
-
-            <Button type="submit" text="Login" loading={loading}/>
-
+        <FormInput
+          type="password"
+          placeholder="Ingrese password"
+          {...register("repassword", {
+            validate: validateEquals(getValues("password")),
+          })}
+          label="Repite tu Contraseña"
+          error={errors.repassword}
+        >
+          <FormError error={errors.repassword} />
+        </FormInput>
+        <Button type="submit" text="Login" loading={loading}/>
       </form>
     </>
   );
 };
 
-export default Login;
+export default Register;

@@ -1,17 +1,49 @@
-import { useState } from 'react'
-import {createContext} from 'react'
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { useState, useEffect } from "react";
+import { createContext } from "react";
+import { auth } from "../firebase";
 
-export const UserContext = createContext()
+export const UserContext = createContext();
 
 const UserProvider = (props) => {
+  const [user, setUser] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const [user, setUser] = useState(false)
 
-    return(
-        <UserContext.Provider value={{user, setUser}}>
-            {props.children}
-        </UserContext.Provider>
-    )
-}
+  useEffect(() => {
+    const unsuscribe = onAuthStateChanged(auth, (user) => {
+      //console.log(user);
+      if (user) {
+        const { email, photoURL, displayName, uid } = user;
+        setUser({ email, photoURL, displayName, uid });
+      } else {
+        setUser(null);
+      }
+    });
 
-export default UserProvider
+    return () => unsuscribe();
+  }, []);
+
+  const registerUser = (email, password) =>
+    createUserWithEmailAndPassword(auth, email, password);
+
+  const loginUser = (email, password) =>
+    signInWithEmailAndPassword(auth, email, password);
+
+  const signOutUser = () => signOut(auth);
+
+  return (
+    <UserContext.Provider
+      value={{ user, setUser, registerUser, loginUser, signOutUser }}
+    >
+      {props.children}
+    </UserContext.Provider>
+  );
+};
+
+export default UserProvider;
